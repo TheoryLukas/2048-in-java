@@ -116,6 +116,7 @@ public class Server
                             <body>
                             <div>
                             <h1> 2048 Leaderboards </h1>
+                            <p> More info on <a href="https://github.com/TheoryLukas/2048-in-java">my GitHub</a> </p>
                             """;
 
                     ArrayList<String> tableData = DBInterface.readFromDB();
