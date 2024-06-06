@@ -1,0 +1,13 @@
+[Unit]
+Description=Manage Java service
+
+[Service]
+WorkingDirectory=/mnt/VAULT/Apps/Other/2048-Gameserver
+ExecStart=/bin/java -jar Game_2048_Server_jar/Game-2048.jar /mnt/VAULT/Apps/Other/2048-Gameserver
+User=game
+Type=simple
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
