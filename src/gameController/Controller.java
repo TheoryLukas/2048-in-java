@@ -151,6 +151,7 @@ public class Controller {
         for (int col = 0; col < 4; col++) {
             for (int tile = col; tile < (12 + col); tile += 4) {
                 if (tiles[tile].getFill() == colorMap.get(0)) continue;
+                if (Objects.equals(labels[tile].getText(), "2048")) continue;
                 if (tiles[tile].getFill() == tiles[tile + 4].getFill()) {
                     int value = Integer.parseInt(labels[tile].getText()) * 2;
                     updateScore(value);
@@ -164,6 +165,7 @@ public class Controller {
         for (int col = 3; col >= 0; col--) {
             for (int tile = col + 12; tile >= 4; tile -= 4) {
                 if (tiles[tile].getFill() == colorMap.get(0)) continue;
+                if (Objects.equals(labels[tile].getText(), "2048")) continue;
                 if (tiles[tile].getFill() == tiles[tile - 4].getFill()) {
                     int value = Integer.parseInt(labels[tile].getText()) * 2;
                     updateScore(value);
@@ -177,6 +179,7 @@ public class Controller {
         for (int row = 0; row < 4; row++) {
             for (int tile = row * 4; tile < row * 4 + 3; tile++) {
                 if (tiles[tile].getFill() == colorMap.get(0)) continue;
+                if (Objects.equals(labels[tile].getText(), "2048")) continue;
                 if (tiles[tile].getFill() == tiles[tile + 1].getFill()) {
                     int value = Integer.parseInt(labels[tile].getText()) * 2;
                     updateScore(value);
@@ -190,6 +193,7 @@ public class Controller {
         for (int row = 0; row < 4; row++) {
             for (int tile = (row * 4) + 3; tile > (row * 4); tile--) {
                 if (tiles[tile].getFill() == colorMap.get(0)) continue;
+                if (Objects.equals(labels[tile].getText(), "2048")) continue;
                 if (tiles[tile].getFill() == tiles[tile - 1].getFill()) {
                     int value = Integer.parseInt(labels[tile].getText()) * 2;
                     updateScore(value);
