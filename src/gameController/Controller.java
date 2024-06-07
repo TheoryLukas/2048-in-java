@@ -20,7 +20,7 @@ public class Controller {
     @FXML
     private TextField name, remoteHostname;
     @FXML
-    private Label usernameField, scoreCounter, networkMessageLabel;
+    private Label usernameField, scoreCounter, networkMessageLabel, warningLabel;
     @FXML
     private Button stateButton, closeButton, nameButton, submitButton;
     @FXML
@@ -204,6 +204,7 @@ public class Controller {
         }
     }
 
+    // Returns the next free tile the furthest away without jumping other tiles; if no tile is free it return the given tile
     private int checkAvailableUp(int position) {
         for (int i = (position % 4); i < position; i += 4) {
             if (tiles[i].getFill() == colorMap.get(0)) return i;
@@ -324,10 +325,12 @@ public class Controller {
     public void saveUsername() {
         if(name.isDisabled()) {
             name.setDisable(false);
+            warningLabel.setVisible(true);
             nameButton.setText("Save Name");
             return;
         }
         nameButton.setText("Change Name");
+        warningLabel.setVisible(false);
         name.setDisable(true);
         String username = name.getText().replace(" ", "_");
         if (Objects.equals(username, "")) username = "Player";
@@ -349,12 +352,14 @@ public class Controller {
         String hostname = remoteHostname.getText();
 
         if (Objects.equals(hostname, "")) return;
+        // Use HTTP only when explicitly asked
+        if (!hostname.startsWith("http://") && !hostname.startsWith("https://")) hostname = "https://" + hostname;
 
         HttpClient client = HttpClient.newHttpClient();
 
         try {
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://" + hostname))
+                    .uri(URI.create(hostname))
                     .POST(HttpRequest.BodyPublishers.ofString(String.format("username=%s&score=%s", usernameField.getText().split(" ")[1], scoreCounter.getText().split(" ")[1])))
                     .build();
 
@@ -362,6 +367,7 @@ public class Controller {
 
             System.out.println(response);
         } catch (IOException | InterruptedException e) {
+            networkMessageLabel.setVisible(true);
             networkMessageLabel.setText("Score could not be sent");
             throw new RuntimeException(e);
         }
